@@ -1,0 +1,45 @@
+{
+  "name": "pointofsale",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ระบบ POS ร้านอาหาร Full-Stack พร้อม KDS, Print Queue, Member & Loyalty, Offline Mode และ Multi-Branch",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "node --watch server/index.js",
+    "dev:client": "vite --config client/vite.config.js",
+    "build": "vite build --config client/vite.config.js",
+    "start": "node server/index.js",
+    "bridge": "node bridge/index.js",
+    "test": "node --test test/*.test.js",
+    "check": "npm run test && npm run build"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^1.0.10",
+    "better-sqlite3": "^13.0.3",
+    "compression": "^1.8.2",
+    "exceljs": "^4.4.0",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "helmet": "^8.3.0",
+    "multer": "^2.4.0",
+    "nodemailer": "^10.0.14",
+    "pdfkit": "^0.20.2",
+    "qrcode": "^1.5.4",
+    "socket.io": "^4.8.4",
+    "socket.io-client": "^4.8.4",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
+    "idb": "^8.0.3",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router-dom": "^7.18.4",
+    "recharts": "^3.10.1",
+    "vite": "^8.3.2",
+    "zustand": "^5.0.15"
+  }
+}
