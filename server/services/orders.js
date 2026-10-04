@@ -392,12 +392,16 @@ export function sendItemsToKitchen(req, orderId, { itemIds = null, offlinePrinte
   return result;
 }
 
-export function sendKitchen(req, orderId) {
+export function sendKitchen(req, orderId, { offlinePrinted = false } = {}) {
   return tx(() => {
     const o = one('SELECT * FROM orders WHERE id = ?', orderId);
     if (!o) throw notFound('ไม่พบ Order');
-    if (!['open', 'held'].includes(o.status)) throw conflict('บิลนี้ปิดแล้ว');
-    const r = sendItemsToKitchen(req, orderId);
+    if (!['open', 'held'].includes(o.status)) {
+      // offline replay after the order was already paid: nothing left to send
+      if (offlinePrinted && o.status === 'paid') return { tickets: [], jobs: [], order: loadOrder(orderId) };
+      throw conflict('บิลนี้ปิดแล้ว');
+    }
+    const r = sendItemsToKitchen(req, orderId, { offlinePrinted });
     if (o.status === 'held') run("UPDATE orders SET status = 'open' WHERE id = ?", orderId);
     return { ...r, order: loadOrder(orderId) };
   });

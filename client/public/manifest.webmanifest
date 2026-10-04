@@ -1,0 +1,10 @@
+{
+  "name": "POS ร้านอาหาร",
+  "short_name": "POS",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#E4572E",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

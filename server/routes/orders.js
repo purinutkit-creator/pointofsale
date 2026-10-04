@@ -77,7 +77,21 @@ r.get('/orders/:id', (req, res) => {
 r.post('/orders', requirePerm('pos.access'), (req, res) => res.json(saveOrder(req, parse(orderSchema, req.body))));
 r.put('/orders/:id', requirePerm('pos.access'), (req, res) => res.json(saveOrder(req, { ...parse(orderSchema, req.body), id: req.params.id })));
 
-r.post('/orders/:id/send-kitchen', requirePerm('pos.send_kitchen'), (req, res) => res.json(sendKitchen(req, req.params.id)));
+r.post('/orders/:id/send-kitchen', requirePerm('pos.send_kitchen'), (req, res) => res.json(sendKitchen(req, req.params.id, { offlinePrinted: !!req.body?.offlinePrinted })));
+
+// ใบแจ้งยอด (pre-bill) for dine-in before payment
+r.post('/orders/:id/print-bill', requirePerm('pos.access'), (req, res) => {
+  const o = one('SELECT * FROM orders WHERE id = ? AND branch_id = ?', req.params.id, branchOf(req));
+  if (!o) throw notFound();
+  recalcOrder(o.id);
+  const printer = receiptPrinterFor(o.branch_id, req.device?.id);
+  if (!printer) throw bad('ยังไม่ได้ตั้งค่าเครื่องพิมพ์ใบเสร็จ');
+  const payload = { ...buildReceiptPayload(o.id, { receiptNo: '-', payments: [], received: null, change: null }), title: 'ใบแจ้งค่าบริการ (ยังไม่ใช่ใบเสร็จ)', sections: { ...getSetting('receipt', o.branch_id).sections, claimQr: false } };
+  if (o.paid_total > 0) payload.payments = all("SELECT method, SUM(amount) amount FROM payment_transactions WHERE order_id = ? AND kind = 'sale' GROUP BY method", o.id);
+  const jobId = createPrintJob({ branchId: o.branch_id, printerId: printer.id, orderId: o.id, docType: 'slip', payload, staffId: req.staff.id });
+  audit(req, 'order.print_bill', { entity: 'order', entityId: o.id });
+  res.json({ jobId });
+});
 
 r.post('/orders/:id/items/:itemId/void', (req, res) => {
   const b = parse(z.object({ qty: z.number().positive().optional(), reason: z.string().max(300).optional() }), req.body || {});

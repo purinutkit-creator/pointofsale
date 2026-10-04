@@ -140,7 +140,8 @@ function receiptLayout(L, d, assets) {
   L.text(d.title || 'ใบเสร็จรับเงิน', { bold: true, align: 'center', size: L.base + 2 });
   if (d.vatMode === 'inclusive' && d.totals?.vat > 0) L.text('(VAT Included)', { size: L.base - 4, align: 'center' });
   L.hr();
-  L.row(`ใบเสร็จ: ${d.receiptNo}`, '', { bold: true });
+  if (d.receiptNo && d.receiptNo !== '-') L.row(`ใบเสร็จ: ${d.receiptNo}`, '', { bold: true });
+  if (d.refReceipt) L.row(`อ้างอิงใบเสร็จ: ${d.refReceipt}`, '');
   L.row(`Order: ${d.queueNo || d.orderNo}`, d.queueNo ? `#${d.orderNo}` : '');
   L.row(`วันที่ ${fmtDate(d.time, d.tz)}`, `เวลา ${fmtTime(d.time, d.tz)}`);
   if (d.staff) L.row(`พนักงาน: ${d.staff}`, d.posName || '');
