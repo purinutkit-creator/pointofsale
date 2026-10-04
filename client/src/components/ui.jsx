@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, createContext, useContext, useCallback } from 'react';
+import { useEffect, useMemo, useRef, useState, createContext, useContext, useCallback, useId } from 'react';
 import { createPortal } from 'react-dom';
 import Icon from './Icon.jsx';
 import { useApp } from '../lib/store.js';
@@ -40,10 +40,10 @@ export function Modal({ title, onClose, children, footer, size, closeOnBg = true
   );
 }
 
-export function Field({ label, hint, children, className, style }) {
+export function Field({ label, hint, children, className, style, htmlFor }) {
   return (
     <div className={cls('field', className)} style={style}>
-      {label && <label>{label}</label>}
+      {label && <label htmlFor={htmlFor}>{label}</label>}
       {children}
       {hint && <div className="hint">{hint}</div>}
     </div>
@@ -51,21 +51,25 @@ export function Field({ label, hint, children, className, style }) {
 }
 
 export function Input({ label, hint, className, size, onValue, ...p }) {
-  const el = <input className={cls('input', size, className)} {...p} onChange={(e) => { p.onChange?.(e); onValue?.(p.type === 'number' ? (e.target.value === '' ? '' : Number(e.target.value)) : e.target.value); }} />;
-  return label || hint ? <Field label={label} hint={hint}>{el}</Field> : el;
+  const auto = useId();
+  const id = p.id || auto;
+  const el = <input id={id} className={cls('input', size, className)} {...p} onChange={(e) => { p.onChange?.(e); onValue?.(p.type === 'number' ? (e.target.value === '' ? '' : Number(e.target.value)) : e.target.value); }} />;
+  return label || hint ? <Field label={label} hint={hint} htmlFor={id}>{el}</Field> : el;
 }
 export function TextArea({ label, hint, onValue, ...p }) {
-  const el = <textarea className="input" {...p} onChange={(e) => { p.onChange?.(e); onValue?.(e.target.value); }} />;
-  return label ? <Field label={label} hint={hint}>{el}</Field> : el;
+  const id = useId();
+  const el = <textarea id={id} className="input" {...p} onChange={(e) => { p.onChange?.(e); onValue?.(e.target.value); }} />;
+  return label ? <Field label={label} hint={hint} htmlFor={id}>{el}</Field> : el;
 }
 export function Select({ label, hint, options, onValue, placeholder, ...p }) {
+  const id = useId();
   const el = (
-    <select className="input" {...p} onChange={(e) => { p.onChange?.(e); onValue?.(e.target.value); }}>
+    <select id={id} className="input" {...p} onChange={(e) => { p.onChange?.(e); onValue?.(e.target.value); }}>
       {placeholder !== undefined && <option value="">{placeholder}</option>}
       {options.map((o) => (typeof o === 'object' ? <option key={o.value} value={o.value}>{o.label}</option> : <option key={o} value={o}>{o}</option>))}
     </select>
   );
-  return label ? <Field label={label} hint={hint}>{el}</Field> : el;
+  return label ? <Field label={label} hint={hint} htmlFor={id}>{el}</Field> : el;
 }
 export function Toggle({ checked, onChange, disabled, label, hint }) {
   const t = (

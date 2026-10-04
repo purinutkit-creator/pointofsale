@@ -74,6 +74,7 @@ export const toast = (m, t, ms) => useApp.getState().toast(m, t, ms);
 export const can = (perm) => useApp.getState().can(perm);
 
 export function applyTheme(settings) {
+  if (settings?.shop?.timezone) window.__shopTz = settings.shop.timezone;
   const t = settings?.shop?.theme;
   if (!t) return;
   const r = document.documentElement;

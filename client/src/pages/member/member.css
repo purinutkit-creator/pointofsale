@@ -1,0 +1,52 @@
+/* Member Web App — Sukhumvit (Apple devices ship "Sukhumvit Set"; shops may provide a licensed web font URL) */
+.member-app {
+  --m-primary: #1D1D1F; --m-accent: #C8A96A;
+  --font: 'Sukhumvit', 'Sukhumvit Set', 'SukhumvitSet', 'Sarabun', system-ui, sans-serif;
+  font-family: var(--font); min-height: 100dvh; background: #F5F5F7; max-width: 560px; margin: 0 auto; position: relative;
+}
+.member-app button, .member-app input, .member-app select, .member-app textarea { font-family: var(--font); }
+.member-app .btn.primary { background: var(--m-primary); border-color: var(--m-primary); }
+.member-app h2 { font-size: 22px; } .member-app h3 { font-size: 17px; margin-bottom: 8px; }
+.m-content { padding: 0 16px 96px; }
+.m-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 560px; display: grid; grid-template-columns: repeat(4, 1fr); background: rgba(255,255,255,.94); backdrop-filter: blur(12px); border-top: 1px solid #e5e5ea; padding: 6px 0 calc(6px + env(safe-area-inset-bottom)); z-index: 20; }
+.m-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 12px; color: #8e8e93; text-decoration: none; padding: 4px; }
+.m-nav a.active { color: var(--m-primary); font-weight: 700; }
+.m-top { margin: 0 -16px; padding: 22px 20px 20px; background: linear-gradient(160deg, var(--m-primary), #3a3a3c); color: #fff; border-radius: 0 0 28px 28px; display: flex; flex-direction: column; gap: 10px; }
+.m-top.slim { padding-bottom: 16px; }
+.m-top .muted, .m-top .xs.muted { color: rgba(255,255,255,.7); }
+.m-tier-badge { align-self: flex-start; padding: 4px 14px; border-radius: 999px; color: #fff; font-weight: 700; font-size: 13px; background: var(--m-accent); }
+.m-points { font-size: 15px; } .m-points span { font-size: 46px; font-weight: 800; letter-spacing: -1px; margin-right: 6px; }
+.m-points.small-p span { font-size: 30px; }
+.m-progress { height: 10px; border-radius: 999px; background: rgba(255,255,255,.2); overflow: hidden; }
+.m-progress > div { height: 100%; border-radius: 999px; }
+.m-bell { position: relative; background: rgba(255,255,255,.15); border: 0; color: #fff; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; }
+.m-bell span { position: absolute; top: -2px; right: -2px; background: #ff3b30; border-radius: 999px; font-size: 11px; padding: 0 6px; }
+.m-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
+.m-scroll > * { scroll-snap-align: start; }
+.m-reward { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,.06); display: flex; flex-direction: column; }
+.m-reward.compact { min-width: 160px; max-width: 160px; }
+.m-reward .img { aspect-ratio: 16/10; background: #eee center/cover; display: grid; place-items: center; color: #aaa; }
+.m-reward .body { padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+.m-pts { color: var(--m-accent); font-weight: 800; }
+.m-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.m-coupon { min-width: 210px; background: #fff; border: 2px dashed var(--m-accent); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; text-align: left; cursor: pointer; }
+.m-coupon.wide { width: 100%; margin-bottom: 10px; }
+.m-code { font-weight: 800; letter-spacing: 3px; font-size: 18px; }
+.m-bday { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 20px; background: linear-gradient(135deg, #fff3e0, #fde2e4); }
+.m-promo { display: flex; gap: 12px; background: #fff; border-radius: 16px; padding: 10px; margin-bottom: 10px; }
+.m-promo img { width: 72px; height: 72px; border-radius: 12px; object-fit: cover; }
+.m-tier-row { background: #fff; border-left: 5px solid; border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; }
+.m-tier-row .small:last-child { grid-column: 1 / -1; }
+.m-hist { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 16px; padding: 12px 14px; }
+.m-date { font-weight: 700; min-width: 56px; }
+.m-card { background: #fff; border-radius: 24px; padding: 20px; box-shadow: 0 6px 24px rgba(0,0,0,.06); }
+.m-login { min-height: 100dvh; display: flex; flex-direction: column; }
+.m-hero { background: linear-gradient(160deg, var(--m-primary), #3a3a3c) center/cover; color: #fff; padding: 46px 22px 70px; text-align: center; }
+.m-hero h1 { font-size: 28px; margin-top: 10px; }
+.m-logo { width: 84px; height: 84px; border-radius: 22px; object-fit: cover; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+.m-login .m-card { margin: -44px 16px 16px; }
+.m-err { color: #ff3b30; font-weight: 600; text-align: center; }
+.m-membercard { margin-top: 16px; border-radius: 24px; padding: 20px; color: #fff; box-shadow: 0 14px 34px rgba(0,0,0,.25); }
+.m-codes { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fff; border-radius: 14px; padding: 10px; margin: 14px 0 8px; }
+.m-codes > div:first-child { flex: 1; }
+.m-note { padding: 10px 0; border-bottom: 1px solid #eee; }

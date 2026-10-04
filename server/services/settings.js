@@ -20,7 +20,7 @@ export const DEFAULT_SETTINGS = {
   pos: {
     requireShift: true, autoLogoutMinutes: 30, lockAfterMinutes: 5, quickCash: [100, 500, 1000],
     defaultOrderType: 'dine_in', askGuests: true, employeeCodeMode: 'auto', employeeCodePrefix: 'EMP', employeeCodeDigits: 3,
-    showStock: true, allowNegativeStock: true, loginMode: 'both',
+    showStock: true, allowNegativeStock: true, loginMode: 'both', cleanTableAfterPay: true,
   },
   payment: {
     methods: { cash: true, qr: true, credit_card: true, debit_card: true, transfer: true, ewallet: true, other: true },

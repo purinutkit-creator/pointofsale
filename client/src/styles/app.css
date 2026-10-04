@@ -203,3 +203,7 @@ table.t tfoot td { font-weight: 700; background: var(--surface-2); }
 .chip { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); font-weight: 600; cursor: pointer; white-space: nowrap; }
 .chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
 .kbd { font-family: ui-monospace, monospace; background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 1px 6px; font-size: 13px; }
+
+/* KDS dark surface */
+[data-kds] { --surface: #22262B; --surface-2: #2A2F35; --border: #353B42; --text: #ECEEF0; --muted: #9AA3AD; color-scheme: dark; }
+[data-kds] .btn { color: var(--text); }

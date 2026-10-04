@@ -3,8 +3,11 @@ export { fmtDate, fmtTime, fmtDateTime, fmtThaiLong, fmtThaiShort, elapsed, toDa
 
 export const cls = (...a) => a.filter(Boolean).join(' ');
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-export const today = () => new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-export const daysAgo = (n) => new Date(Date.now() - n * 86400e3 - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+// business dates follow the shop timezone (set from settings), not the browser timezone
+import { businessDate as bd } from '@shared/format.js';
+const shopTz = () => (typeof window !== 'undefined' && window.__shopTz) || 'Asia/Bangkok';
+export const today = () => bd(new Date(), shopTz());
+export const daysAgo = (n) => bd(new Date(Date.now() - n * 86400e3), shopTz());
 
 export const KDS_LABEL = { new: 'ใหม่', preparing: 'กำลังทำ', ready: 'พร้อม', served: 'เสิร์ฟแล้ว', voided: 'ยกเลิก', none: '-' };
 export const TABLE_STATE = {
