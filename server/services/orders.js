@@ -4,6 +4,7 @@
 // totals always come from shared/calc.js, and every mutating call is idempotent
 // (client generated UUIDs for orders/items, idempotency keys for payments/refunds).
 // ─────────────────────────────────────────────────────────────────────────────
+import { config } from '../config.js';
 import { one, all, run, insert, tx, afterCommit, json, sqlNow } from '../db/index.js';
 import { uuid, randomToken } from '../lib/security.js';
 import { bad, conflict, notFound, forbidden } from '../lib/errors.js';
@@ -688,7 +689,7 @@ export function buildReceiptPayload(orderId, { receiptNo, docType = 'receipt', c
 
 export function publicBaseUrl(req) {
   const shop = getSetting('shop');
-  return (shop.publicUrl || process.env.PUBLIC_URL || `${req.protocol}://${req.get('host')}`).replace(/\/$/, '');
+  return (shop.publicUrl || config.publicUrl || `${req.protocol}://${req.get('host')}`).replace(/\/$/, '');
 }
 
 /**

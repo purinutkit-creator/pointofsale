@@ -1,0 +1,27 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Dashboard → New → Blueprint → เลือก repo นี้ (และ branch) → Apply
+services:
+  - type: web
+    name: pointofsale
+    runtime: node
+    region: singapore
+    # SQLite ต้องใช้ Persistent Disk ซึ่งใช้ได้เฉพาะแพลนเสียเงิน (Starter ขึ้นไป)
+    plan: starter
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: node server/index.js
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATA_DIR
+        value: /var/data
+      # Render อยู่หลัง proxy 1 ชั้น → ได้ IP/HTTPS ของลูกค้าที่ถูกต้อง (rate limit, ลิงก์ QR)
+      - key: TRUST_PROXY
+        value: "1"
+      - key: SESSION_HOURS
+        value: "12"
+    disk:
+      name: pos-data
+      mountPath: /var/data
+      sizeGB: 1
