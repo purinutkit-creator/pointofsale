@@ -33,6 +33,20 @@ npm start            # http://localhost:3000
 npm test             # integration test (API flow) + unit test ของ engine ที่ใช้ร่วมกัน
 ```
 
+## Deploy บน Render.com
+
+มีไฟล์ `render.yaml` (Blueprint) เตรียมไว้แล้ว
+
+1. เข้า Render Dashboard › **New** › **Blueprint** แล้วเชื่อม GitHub repo `purinutkit-creator/pointofsale` เลือก branch ที่มี `render.yaml`
+2. กด **Apply** ระบบจะสร้าง Web Service `pointofsale` (Node 22, region Singapore) และ Persistent Disk 1 GB ที่ `/var/data` สำหรับฐานข้อมูล SQLite และไฟล์ Backup
+3. เมื่อ Deploy เสร็จ ให้เปิด `https://<ชื่อ service>.onrender.com` แล้วทำ "ตั้งค่าร้านครั้งแรก"
+
+หมายเหตุ
+* ต้องใช้แพลน **Starter ขึ้นไป** เพราะแพลน Free ไม่มี Persistent Disk ข้อมูลจะหายทุกครั้งที่ deploy หรือ restart และ service จะหลับเมื่อไม่มีการใช้งาน
+* ใช้ได้ 1 instance เท่านั้น (SQLite + Disk) ไม่รองรับ scale แนวนอน
+* Render ให้ HTTPS อัตโนมัติ จึงใช้ Web Bluetooth / WebUSB บน Chrome ได้ทันที ส่วนลิงก์ QR สะสมแต้มท้ายใบเสร็จใช้ `RENDER_EXTERNAL_URL` อัตโนมัติ (หรือตั้ง Custom Domain ในหน้าตั้งค่าร้าน › Public URL)
+* เครื่องพิมพ์ LAN ในร้าน: เซิร์ฟเวอร์บน Cloud เข้าถึง IP ภายในร้านไม่ได้ ให้ใช้ **Local Print Bridge** บนคอมพิวเตอร์ในร้าน หรือใช้เครื่องพิมพ์ Bluetooth/USB ที่ต่อกับเครื่อง POS
+
 ## สถาปัตยกรรม
 
 ```
